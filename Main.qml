@@ -13,8 +13,8 @@ Item {
     }
 
     Rectangle {
-        width: 320
-        height: 320
+        width: 340
+        height: 400
         anchors.centerIn: parent
         radius: 10
         color: "#000000"
@@ -22,8 +22,18 @@ Item {
         border.color: "#10b552"
 
         ColumnLayout {
-            anchors.centerIn: parent
+            anchors.fill: parent
+            anchors.margins: 10
             spacing: 10
+
+            AnimatedImage {
+                source: "whoIsUser.gif"
+                width: 120
+                height: 120
+                fillMode: Image.PreserveAspectFit
+                Layout.alignment: Qt.AlignHCenter
+                Layout.topMargin: 5
+            }
 
             Label {
                 text: "Username:"
@@ -34,7 +44,11 @@ Item {
 
             TextField {
                 id: username
-                width: 240
+                Layout.preferredWidth: 260
+                Layout.minimumWidth: 260
+                Layout.maximumWidth: 260
+                height: 35
+
                 color: "#c1b492"
 
                 background: Rectangle {
@@ -44,13 +58,6 @@ Item {
                 }
 
                 KeyNavigation.tab: password
-
-                Keys.onPressed: function(event) {
-                    if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                        sddm.login(username.text, password.text, session.index)
-                        event.accepted = true
-                    }
-                }
             }
 
             Label {
@@ -62,7 +69,10 @@ Item {
 
             TextField {
                 id: password
-                width: 240
+                Layout.preferredWidth: 260
+                Layout.minimumWidth: 260
+                Layout.maximumWidth: 260
+                height: 35
                 echoMode: TextInput.Password
                 color: "#c1b492"
 
@@ -73,18 +83,14 @@ Item {
                 }
 
                 KeyNavigation.tab: session
-
-                Keys.onPressed: function(event) {
-                    if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                        sddm.login(username.text, password.text, session.index)
-                        event.accepted = true
-                    }
-                }
             }
 
             ComboBox {
                 id: session
-                width: 240
+                Layout.preferredWidth: 260
+                Layout.minimumWidth: 260
+                Layout.maximumWidth: 260
+                height: 35
                 model: sessionModel
                 currentIndex: sessionModel.lastIndex
             }
@@ -100,44 +106,6 @@ Item {
                     onClicked: sddm.login(username.text, password.text, session.index)
                 }
             }
-        }
-    }
-
-    AnimatedImage {
-        id: shutdownBtn
-        width: 70
-        height: 70
-        x: parent.width - width - 10
-        y: 10
-        source: "shutdown.gif"
-        fillMode: Image.PreserveAspectFit
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: sddm.powerOff()
-        }
-    }
-
-    AnimatedImage {
-        id: rebootBtn
-        width: 60
-        height: 60
-        x: shutdownBtn.x - width - 10
-        y: shutdownBtn.y + 5
-        source: "logout.gif"
-        fillMode: Image.PreserveAspectFit
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: sddm.reboot()
-        }
-    }
-
-    Component.onCompleted: {
-        if (username.text === "") {
-            username.forceActiveFocus()
-        } else {
-            password.forceActiveFocus()
         }
     }
 }
