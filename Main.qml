@@ -22,11 +22,11 @@ Rectangle {
 		}
 	}
 
-	AnimatedImage {
+	Image {
 		width: parent.width
 		height: parent.height
-		fillMode: Image.Tile
-		source: "link_nod.gif"
+		fillMode: Image.PreserveAspectCrop
+		source: "landscape.jpg"
 	}
 
 	ColumnLayout {
