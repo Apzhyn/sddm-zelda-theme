@@ -19,11 +19,11 @@ Item {
 
         Column {
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 12
+            spacing: 0
 
             Item {
-                width: 180
-                height: 180
+                width: 420
+                height: 420
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 AnimatedImage {
@@ -45,7 +45,7 @@ Item {
                 ColumnLayout {
                     anchors.fill: parent
                     anchors.margins: 18
-                    spacing: 12
+
 
                     Label {
                         text: "Username"
@@ -60,7 +60,6 @@ Item {
                         Layout.minimumWidth: 280
                         Layout.maximumWidth: 280
                         height: 36
-
                         color: "#c1b492"
 
                         background: Rectangle {
@@ -86,7 +85,6 @@ Item {
                         Layout.maximumWidth: 280
                         height: 36
                         echoMode: TextInput.Password
-
                         color: "#c1b492"
 
                         background: Rectangle {
