@@ -12,101 +12,159 @@ Item {
         fillMode: Image.PreserveAspectCrop
     }
 
-    ColumnLayout {
+    Item {
         anchors.centerIn: parent
-        spacing: 10
-        anchors.verticalCenterOffset: -40
+        width: 360
+        height: 520
 
-        AnimatedImage {
-            source: "whoIsUser.gif"
-            width: 140
-            height: 140
-            fillMode: Image.PreserveAspectFit
-            Layout.alignment: Qt.AlignHCenter
-        }
+        Column {
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: 12
 
-        Rectangle {
-            width: 340
-            height: 320
-            radius: 10
-            color: "#000000"
-            opacity: 0.6
-            border.color: "#10b552"
-            Layout.alignment: Qt.AlignHCenter
+            Item {
+                width: 180
+                height: 180
+                anchors.horizontalCenter: parent.horizontalCenter
 
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: 10
-                spacing: 8
-
-                Label {
-                    text: "Username:"
-                    color: "#c1b492"
-                    font.pixelSize: 16
-                    Layout.alignment: Qt.AlignHCenter
+                AnimatedImage {
+                    anchors.fill: parent
+                    source: "whoIsUser.gif"
+                    fillMode: Image.PreserveAspectFit
                 }
+            }
 
-                TextField {
-                    id: username
-                    Layout.preferredWidth: 260
-                    Layout.maximumWidth: 260
-                    height: 35
+            Rectangle {
+                width: 360
+                height: 320
+                radius: 10
+                color: "#000000"
+                opacity: 0.6
+                border.color: "#10b552"
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                    color: "#c1b492"
-                    background: Rectangle {
-                        color: "#111111"
-                        border.color: "#10b552"
-                        radius: 4
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 18
+                    spacing: 12
+
+                    Label {
+                        text: "Username"
+                        color: "#c1b492"
+                        font.pixelSize: 16
+                        Layout.alignment: Qt.AlignHCenter
                     }
 
-                    KeyNavigation.tab: password
-                }
+                    TextField {
+                        id: username
+                        Layout.preferredWidth: 280
+                        Layout.minimumWidth: 280
+                        Layout.maximumWidth: 280
+                        height: 36
 
-                Label {
-                    text: "Password:"
-                    color: "#c1b492"
-                    font.pixelSize: 16
-                    Layout.alignment: Qt.AlignHCenter
-                }
+                        color: "#c1b492"
 
-                TextField {
-                    id: password
-                    Layout.preferredWidth: 260
-                    Layout.maximumWidth: 260
-                    height: 35
-                    echoMode: TextInput.Password
+                        background: Rectangle {
+                            color: "#111111"
+                            border.color: "#10b552"
+                            radius: 4
+                        }
 
-                    color: "#c1b492"
-                    background: Rectangle {
-                        color: "#111111"
-                        border.color: "#10b552"
-                        radius: 4
+                        KeyNavigation.tab: password
                     }
 
-                    KeyNavigation.tab: session
-                }
+                    Label {
+                        text: "Password"
+                        color: "#c1b492"
+                        font.pixelSize: 16
+                        Layout.alignment: Qt.AlignHCenter
+                    }
 
-                ComboBox {
-                    id: session
-                    Layout.preferredWidth: 260
-                    Layout.maximumWidth: 260
-                    height: 35
-                    model: sessionModel
-                    currentIndex: sessionModel.lastIndex
-                }
+                    TextField {
+                        id: password
+                        Layout.preferredWidth: 280
+                        Layout.minimumWidth: 280
+                        Layout.maximumWidth: 280
+                        height: 36
+                        echoMode: TextInput.Password
 
-                Label {
-                    text: "Login"
-                    color: "#cdd61a"
-                    font.pixelSize: 28
-                    Layout.alignment: Qt.AlignHCenter
+                        color: "#c1b492"
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: sddm.login(username.text, password.text, session.index)
+                        background: Rectangle {
+                            color: "#111111"
+                            border.color: "#10b552"
+                            radius: 4
+                        }
+
+                        KeyNavigation.tab: session
+                    }
+
+                    ComboBox {
+                        id: session
+                        Layout.preferredWidth: 280
+                        Layout.minimumWidth: 280
+                        Layout.maximumWidth: 280
+                        height: 36
+                        model: sessionModel
+                        currentIndex: sessionModel.lastIndex
+                    }
+
+                    Rectangle {
+                        Layout.fillWidth: true
+                        height: 42
+                        color: "transparent"
+
+                        Label {
+                            text: "Login"
+                            color: "#cdd61a"
+                            font.pixelSize: 28
+                            anchors.centerIn: parent
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: sddm.login(username.text, password.text, session.index)
+                            }
+                        }
                     }
                 }
             }
+        }
+    }
+
+    AnimatedImage {
+        id: shutdownBtn
+        width: 72
+        height: 72
+        x: parent.width - width - 12
+        y: 12
+        source: "shutdown.gif"
+        fillMode: Image.PreserveAspectFit
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: sddm.powerOff()
+        }
+    }
+
+    AnimatedImage {
+        id: rebootBtn
+        width: 62
+        height: 62
+        x: shutdownBtn.x - width - 10
+        y: shutdownBtn.y + 6
+        source: "logout.gif"
+        fillMode: Image.PreserveAspectFit
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: sddm.reboot()
+        }
+    }
+
+    Component.onCompleted: {
+        if (username.text === "") {
+            username.forceActiveFocus()
+        } else {
+            password.forceActiveFocus()
         }
     }
 }
